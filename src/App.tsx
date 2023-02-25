@@ -13,7 +13,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import {musicalNotes, search, person} from 'ionicons/icons';
 import UserTab from './pages/UserTab';
 import ExploreTab from './pages/ExploreTab';
-import AboutTab from "./pages/AboutTab";
+import AboutTab from "./pages/about/AboutTab";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
