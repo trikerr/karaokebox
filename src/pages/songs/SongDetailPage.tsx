@@ -7,10 +7,21 @@ import { useHistory } from 'react-router-dom';
 interface SongDetailProps {
     location: {
         state: {
-            song: Song;
+            song?: Song;
         }
     }
 }
+
+const SongHeader: React.FC<{ song?: Song, onBackClick: () => void }> = ({ song, onBackClick }) => (
+    <IonHeader>
+        <IonToolbar>
+            <IonButton onClick={onBackClick} fill="clear">
+                <IonIcon icon={chevronBack} />
+            </IonButton>
+            <IonTitle>{song?.title || 'No Song'}</IonTitle>
+        </IonToolbar>
+    </IonHeader>
+);
 
 const SongDetailPage: React.FC<SongDetailProps> = ({ location }) => {
     const song = location.state?.song;
@@ -20,38 +31,20 @@ const SongDetailPage: React.FC<SongDetailProps> = ({ location }) => {
         history.goBack();
     };
 
-    if (typeof song === "undefined") {
-        return (
-            <IonPage>
-                <IonHeader>
-                    <IonToolbar>
-                        <IonButton onClick={handleBackClick} fill="clear">
-                            <IonIcon icon={chevronBack} />
-                        </IonButton>
-                        <IonTitle></IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-                <IonContent>
-                </IonContent>
-            </IonPage>
-        );
-    }
-
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonButton onClick={handleBackClick} fill="clear">
-                        <IonIcon icon={chevronBack} />
-                    </IonButton>
-                    <IonTitle>{song.title}</IonTitle>
-                </IonToolbar>
-            </IonHeader>
+            <SongHeader song={song} onBackClick={handleBackClick} />
             <IonContent>
-                <h1>{song.title}</h1>
-                <p>Artist: {song.artist}</p>
-                <p>Album: {song.album}</p>
-                <p>Year: {song.year}</p>
+                {song ? (
+                    <>
+                        <h1>{song.title}</h1>
+                        <p>Artist: {song.artist}</p>
+                        <p>Album: {song.album}</p>
+                        <p>Year: {song.year}</p>
+                    </>
+                ) : (
+                    <p>No song selected</p>
+                )}
             </IonContent>
         </IonPage>
     );
