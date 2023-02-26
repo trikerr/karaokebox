@@ -1,8 +1,32 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSearchbar } from '@ionic/react';
 import './ExploreTab.css';
+import { useState, useEffect } from 'react';
+import { fetchSongs } from '../services/api';
+import { Song } from '../models/Song';
+import SongList from '../components/SongList';
 
 const ExploreTab: React.FC = () => {
+    const [songs, setSongs] = useState<Song[]>([]);
+    const [searchText, setSearchText] = useState<string>('');
+
+    useEffect(() => {
+        const getSongs = async () => {
+            const data = await fetchSongs();
+            setSongs(data);
+        };
+        getSongs();
+    }, []);
+
+    const handleSearch = (event: CustomEvent) => {
+        setSearchText(event.detail.value);
+    }
+
+    const filteredSongs = songs.filter(song =>
+        song.title.toLowerCase().includes(searchText.toLowerCase()) ||
+        song.artist.toLowerCase().includes(searchText.toLowerCase()) ||
+        song.album.toLowerCase().includes(searchText.toLowerCase())
+    );
+
   return (
     <IonPage>
       <IonHeader>
@@ -16,7 +40,8 @@ const ExploreTab: React.FC = () => {
             <IonTitle size="large">Explorar</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Tab 2 page" />
+          <IonSearchbar onIonChange={handleSearch} placeholder="Buscar canciones" />
+          <SongList songs={filteredSongs} />
       </IonContent>
     </IonPage>
   );
