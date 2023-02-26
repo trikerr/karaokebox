@@ -13,6 +13,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import {musicalNotes, search, person} from 'ionicons/icons';
 import UserTab from './pages/UserTab';
 import ExploreTab from './pages/ExploreTab';
+import SongDetailPage from './pages/songs/SongDetailPage';
 import AboutTab from "./pages/about/AboutTab";
 
 /* Core CSS required for Ionic components to work properly */
@@ -47,6 +48,7 @@ const App: React.FC = () => (
           <Route exact path="/explore">
             <ExploreTab />
           </Route>
+          <Route path="/song/:id" component={SongDetailPage} exact />
           <Route path="/about">
             <AboutTab />
           </Route>
