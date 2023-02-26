@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { IonButton, IonIcon, IonGrid, IonRow, IonCol } from '@ionic/react';
 import { play, pause } from 'ionicons/icons';
 import ReactPlayer from 'react-player';
