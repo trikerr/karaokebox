@@ -3,6 +3,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIco
 import { chevronBack } from 'ionicons/icons';
 import { Song } from '../../models/Song';
 import { useHistory } from 'react-router-dom';
+import './SongDetailPage.css';
 
 interface SongDetailProps {
     location: {
@@ -34,13 +35,16 @@ const SongDetailPage: React.FC<SongDetailProps> = ({ location }) => {
     return (
         <IonPage>
             <SongHeader song={song} onBackClick={handleBackClick} />
-            <IonContent>
+            <IonContent class="ion-padding">
                 {song ? (
                     <>
                         <h1>{song.title}</h1>
                         <p>Artist: {song.artist}</p>
                         <p>Album: {song.album}</p>
                         <p>Year: {song.year}</p>
+
+                        {/*<img src="/assets/images/karaokebox/Logo.png" alt="KaraokeBox Logo" />*/}
+                        <video className="player" src="/assets/video/song.mp4" controls></video>
                     </>
                 ) : (
                     <p>No song selected</p>
