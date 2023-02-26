@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIcon } from '@ionic/react';
-import { chevronBack, play, pause } from 'ionicons/icons';
+import { chevronBack, heartOutline } from 'ionicons/icons';
 import { Song } from '../../models/Song';
 import { useHistory } from 'react-router-dom';
 import SongPlayer from "../../components/general/SongPlayer";
@@ -20,6 +20,9 @@ const SongHeader: React.FC<{ song?: Song, onBackClick: () => void }> = ({ song, 
                 <IonIcon icon={chevronBack} />
             </IonButton>
             <IonTitle>{song?.title || 'No Song'}</IonTitle>
+            <IonButton slot="end" fill="clear">
+                <IonIcon icon={heartOutline} />
+            </IonButton>
         </IonToolbar>
     </IonHeader>
 );
