@@ -1,8 +1,9 @@
-import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIcon } from '@ionic/react';
-import { chevronBack } from 'ionicons/icons';
+import React, { useState, useRef } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonIcon, IonGrid, IonRow, IonCol } from '@ionic/react';
+import { chevronBack, play, pause } from 'ionicons/icons';
 import { Song } from '../../models/Song';
 import { useHistory } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 import './SongDetailPage.css';
 
 interface SongDetailProps {
@@ -27,9 +28,23 @@ const SongHeader: React.FC<{ song?: Song, onBackClick: () => void }> = ({ song, 
 const SongDetailPage: React.FC<SongDetailProps> = ({ location }) => {
     const song = location.state?.song;
     const history = useHistory();
+    const playerRef = useRef<ReactPlayer>(null);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
     const handleBackClick = () => {
         history.goBack();
+    };
+
+    const handleVideoReady = () => {
+        console.log('Video is ready to play');
+    };
+
+    const handlePlayClick = () => {
+        setIsPlaying(true);
+    };
+
+    const handlePauseClick = () => {
+        setIsPlaying(false);
     };
 
     return (
@@ -43,8 +58,32 @@ const SongDetailPage: React.FC<SongDetailProps> = ({ location }) => {
                         <p>Album: {song.album}</p>
                         <p>Year: {song.year}</p>
 
-                        {/*<img src="/assets/images/karaokebox/Logo.png" alt="KaraokeBox Logo" />*/}
-                        <video className="player" src="/assets/video/song.mp4" controls></video>
+                        <div className="player-wrapper">
+                            <ReactPlayer
+                                className="react-player"
+                                url="/assets/video/song.mp4"
+                                onReady={handleVideoReady}
+                                playing={isPlaying}
+                                controls={false}
+                                width="100%"
+                                height="100%"
+                            />
+                        </div>
+
+                        <IonGrid>
+                            <IonRow className="player-controls">
+                                <IonCol>
+                                    <IonButton expand="block" onClick={handlePlayClick} disabled={isPlaying}>
+                                        <IonIcon icon={play} />
+                                    </IonButton>
+                                </IonCol>
+                                <IonCol>
+                                    <IonButton expand="block" onClick={handlePauseClick} disabled={!isPlaying}>
+                                        <IonIcon icon={pause} />
+                                    </IonButton>
+                                </IonCol>
+                            </IonRow>
+                        </IonGrid>
                     </>
                 ) : (
                     <p>No song selected</p>
