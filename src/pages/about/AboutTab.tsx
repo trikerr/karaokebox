@@ -1,17 +1,7 @@
 import {IonContent, IonHeader, IonItem, IonList, IonPage, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, useIonToast} from '@ionic/react';
-import ExploreContainer from '../../components/ExploreContainer';
 import './AboutTab.css';
 
 const AboutTab: React.FC = () => {
-    const clicked = (text: string) => {
-        console.log(`Clicked ${text}`);
-        present({
-            message: `Clicked ${text}`,
-            duration: 1500,
-            position: 'top'
-        });
-    }
-
     const [present] = useIonToast();
 
     const presentToast = (text: string) => {
