@@ -1,13 +1,15 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSearchbar } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './ExploreTab.css';
 import { useState, useEffect } from 'react';
 import { fetchSongs } from '../services/api';
 import { Song } from '../models/Song';
-import SongList from '../components/SongList';
+import SongList from '../components/songs/SongList';
+import SearchBar from '../components/general/searchBar';
+import { searchSongs } from '../utils/searchUtils';
 
 const ExploreTab: React.FC = () => {
     const [songs, setSongs] = useState<Song[]>([]);
-    const [searchText, setSearchText] = useState<string>('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const getSongs = async () => {
@@ -17,15 +19,11 @@ const ExploreTab: React.FC = () => {
         getSongs();
     }, []);
 
-    const handleSearch = (event: CustomEvent) => {
-        setSearchText(event.detail.value);
-    }
+    const handleSearch = (searchTerm: string) => {
+        setSearchTerm(searchTerm);
+    };
 
-    const filteredSongs = songs.filter(song =>
-        song.title.toLowerCase().includes(searchText.toLowerCase()) ||
-        song.artist.toLowerCase().includes(searchText.toLowerCase()) ||
-        song.album.toLowerCase().includes(searchText.toLowerCase())
-    );
+    const filteredSongs = searchSongs(songs, searchTerm);
 
   return (
     <IonPage>
@@ -40,7 +38,7 @@ const ExploreTab: React.FC = () => {
             <IonTitle size="large">Explorar</IonTitle>
           </IonToolbar>
         </IonHeader>
-          <IonSearchbar onIonChange={handleSearch} placeholder="Buscar canciones" />
+          <SearchBar onSearch={handleSearch} placeholder="Buscar por canción, artista o álbum" />
           <SongList songs={filteredSongs} />
       </IonContent>
     </IonPage>

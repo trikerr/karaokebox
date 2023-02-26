@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonList, IonItem, IonLabel } from '@ionic/react';
-import { Song } from '../models/Song';
+import { Song } from '../../models/Song';
 
 interface SongListProps {
     songs: Song[];
