@@ -28,7 +28,7 @@ const CarouselSongs: React.FC<PopularSongsProps> = ({ popularSongs }) => {
                 <IonSlide key={song.rank} onClick={() => handleSongClick(song.rank.toString())}>
                     <div className="squareSong">
                         <IonAvatar className="cover">
-                            <img src={song.coverUrl} />
+                            <img src={song.coverUrl} alt="Imagen" />
                         </IonAvatar>
                         <div className="nameSong">{song.title}</div>
                         <div className="nameArtist">{song.artist}</div>
